@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiRepeatButton.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MauiRepeatButton.ViewModels"
+    x:DataType="vm:MainPageViewModel">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,0" Spacing="25">
+            <!--<Button Text="Click me" Pressed="ButtonPressed" Released="ButtonReleased"/>-->
+
+            <ImageButton
+                x:Name="UpButton"
+                HorizontalOptions="Start"
+                Pressed="ButtonUpPressed"
+                Released="ButtonReleased" Source="arrowup.png" />
+            <Label
+                x:Name="LabelRepeats" Margin="12,0,0,0"
+                FontSize="Large" Text="0"
+                VerticalOptions="Center" />
+
+            <ImageButton
+                x:Name="DownButton"
+                HorizontalOptions="Start"
+                Pressed="ButtonDownPressed"
+                Released="ButtonReleased" Source="arrowdown.png" />
+
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
