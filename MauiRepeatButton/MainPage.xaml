@@ -14,7 +14,7 @@
                 x:Name="UpButton"
                 HorizontalOptions="Start"
                 Pressed="ButtonUpPressed"
-                Released="ButtonReleased" Source="arrowup.png" />
+                Source="arrowup.png" />
             <Label
                 x:Name="LabelRepeats" Margin="12,0,0,0"
                 FontSize="Large" Text="0"
@@ -24,7 +24,7 @@
                 x:Name="DownButton"
                 HorizontalOptions="Start"
                 Pressed="ButtonDownPressed"
-                Released="ButtonReleased" Source="arrowdown.png" />
+                Source="arrowdown.png" />
 
 
 

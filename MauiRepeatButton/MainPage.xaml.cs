@@ -1,87 +1,62 @@
-﻿namespace MauiRepeatButton
+﻿namespace MauiRepeatButton;
+
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+    private static readonly object _lock = new object();
+
+    int count = 0;
+
+    public MainPage()
     {
-        private static readonly object _lock = new object();
+        InitializeComponent();
+    }
 
-        int count = 0;
-        private PeriodicTimer _repeatActionTimer;
+    private async void ButtonUpPressed(object sender, EventArgs e)
+    {
+        CancellationTokenSource cts = new CancellationTokenSource();
+        CancellationToken ct = cts.Token;
 
-        public MainPage()
+        using (var repeatActionTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(100)))
         {
-            InitializeComponent();
-        }
-
-        private async void ButtonUpPressed(object sender, EventArgs e)
-        {
-
-            // use CancellationToken to stop the timer
-
-            using (_repeatActionTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(100)))
+            while (await repeatActionTimer.WaitForNextTickAsync(ct))
             {
-                while (await _repeatActionTimer.WaitForNextTickAsync())
+                count++;
+                LabelRepeats.Text = count.ToString();
+                if (!UpButton.IsPressed)
                 {
-                    lock (_lock)
-                    {
-                        count++;
-                        LabelRepeats.Text = count.ToString();
-                        if (!UpButton.IsPressed)
-                        {
-                            break;
-                        }
-                    }
-
+                    cts.Cancel();
+                    break;
                 }
             }
-
-        }
-
-        private async void ButtonDownPressed(object sender, EventArgs e)
-        {
-
-            // use the cancellation token to stop the timer
-
-            using (_repeatActionTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(100)))
-            {
-
-                while (await _repeatActionTimer.WaitForNextTickAsync())
-                {
-                    lock (_lock)
-                    {
-                        count--;
-                        LabelRepeats.Text = count.ToString();
-
-                        if (!DownButton.IsPressed)
-                        {
-
-                            break;
-                        }
-                    }
-
-                }
-
-            }
-
-        }
-
-        private void ButtonReleased(object sender, EventArgs e)
-        {
-            //ClearTimer();
-            //using (_repeatActionTimer)
-            //{
-            //    if (_repeatActionTimer != null)
-            //    {
-            //        _repeatActionTimer.Dispose();
-            //        _repeatActionTimer = null;
-
-            //    }
-            //}
-        }
-
-        private void ClearTimer()
-        {
-
         }
     }
 
+    private async void ButtonDownPressed(object sender, EventArgs e)
+    {
+
+        // use the cancellation token to stop the timer
+        CancellationTokenSource cts = new CancellationTokenSource();
+        CancellationToken ct = cts.Token;
+
+        using (var repeatActionTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(100)))
+        {
+
+            while (await repeatActionTimer.WaitForNextTickAsync(ct))
+            {
+
+                count--;
+                LabelRepeats.Text = count.ToString();
+
+                if (!DownButton.IsPressed)
+                {
+                    cts.Cancel();
+                    break;
+                }
+            }
+
+        }
+
+    }
+
 }
+
