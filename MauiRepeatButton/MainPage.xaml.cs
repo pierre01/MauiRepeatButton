@@ -4,7 +4,7 @@ public partial class MainPage : ContentPage
 {
     CancellationTokenSource _tokenSource;
 
-    int count = 0;
+    int _count = 0;
 
     public MainPage()
     {
@@ -25,8 +25,8 @@ public partial class MainPage : ContentPage
             {
                 while (await repeatActionTimer.WaitForNextTickAsync(ct))
                 {
-                    count++;
-                    LabelRepeats.Text = count.ToString();
+                    _count++;
+                    LabelRepeats.Text = _count.ToString();
                     if (!UpButton.IsPressed)
                     {
                         _tokenSource.Cancel();
@@ -43,7 +43,7 @@ public partial class MainPage : ContentPage
     private async void ButtonDownPressed(object sender, EventArgs e)
     {
 
-        // Check the cancellation token to stop the timer if a button is stuck in  pressed
+        // Check the cancellation token to stop the timer if a button is stuck in  pressed mode
         if (_tokenSource != null && !_tokenSource.IsCancellationRequested) { _tokenSource.Cancel(); }
 
         _tokenSource = new CancellationTokenSource();
@@ -55,8 +55,8 @@ public partial class MainPage : ContentPage
             {
                 while (await repeatActionTimer.WaitForNextTickAsync(ct))
                 {
-                    count--;
-                    LabelRepeats.Text = count.ToString();
+                    _count--;
+                    LabelRepeats.Text = _count.ToString();
 
                     if (!DownButton.IsPressed)
                     {
